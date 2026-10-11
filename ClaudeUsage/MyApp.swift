@@ -16,10 +16,13 @@ import SwiftUI
 
         Window("Help", id: "help") {
             HelpView()
+                .onAppear { NSApplication.shared.activate() }
+                .onDisappear { store.helpClosed() }
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)
-        .defaultLaunchBehavior(.suppressed)
+        // Shown automatically only on first launch, before the Keychain prompt.
+        .defaultLaunchBehavior(store.hasSeenHelp ? .suppressed : .presented)
     }
 
     private var labelText: String {

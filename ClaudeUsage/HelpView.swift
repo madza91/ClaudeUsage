@@ -37,7 +37,7 @@ struct HelpView: View {
             .font(.callout)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Text("Numbers update within 5 minutes. Tokens last a few hours — use Claude Code in Terminal to keep them fresh.")
+            Text("Numbers update every minute. Tokens last a few hours — use Claude Code in Terminal to keep them fresh.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

@@ -22,12 +22,14 @@ nonisolated struct UsageResponse: Decodable, Sendable {
 nonisolated enum UsageError: LocalizedError {
     case notLoggedIn
     case tokenExpired
+    case rateLimited
     case badResponse(Int)
 
     var errorDescription: String? {
         switch self {
         case .notLoggedIn: "Not logged in to Claude Code"
         case .tokenExpired: "Token expired — run Claude Code"
+        case .rateLimited: "Too many requests — retrying in 5 min"
         case .badResponse(let code): "Usage request failed (HTTP \(code))"
         }
     }
@@ -76,8 +78,8 @@ nonisolated enum UsageClient {
 
         let (data, response) = try await URLSession.shared.data(for: request)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-        print("[Usage] HTTP \(status): \(String(decoding: data, as: UTF8.self))")
         if status == 401 { throw UsageError.tokenExpired }
+        if status == 429 { throw UsageError.rateLimited }
         guard status == 200 else { throw UsageError.badResponse(status) }
 
         let decoder = JSONDecoder()
