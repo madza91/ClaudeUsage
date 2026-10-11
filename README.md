@@ -19,7 +19,7 @@ Click it for reset times, Help, About and Quit. No windows, no settings, no Dock
 ## How it works
 
 1. Reads the OAuth token Claude Code stores in your login Keychain (`Claude Code-credentials`).
-2. Calls `https://api.anthropic.com/api/oauth/usage` once a minute (backs off to 5 minutes if rate‑limited).
+2. Calls `https://api.anthropic.com/api/oauth/usage` every 5 minutes (backs off to 15 minutes if rate‑limited).
 3. Shows session and weekly utilization in the menu bar.
 
 The app never refreshes the token itself, so it can't log Claude Code out. Checking usage doesn't consume tokens or count toward your limits.
@@ -40,7 +40,7 @@ Claude Code's token lasts a few hours and is refreshed only while Claude Code is
 2. Send any message or type `/usage`
 3. If you're not logged in, run `/login` first
 
-The app picks up the new token within a minute.
+The app picks up the new token within 5 minutes.
 
 ## Building from source
 

@@ -20,8 +20,8 @@ final class UsageStore {
         helpClosedContinuation = nil
     }
 
-    /// Refreshes usage now and then every minute until the task is cancelled.
-    /// Backs off to 5 minutes after the server rate-limits a request.
+    /// Refreshes usage now and then every 5 minutes until the task is cancelled.
+    /// Backs off to 15 minutes after the server rate-limits a request.
     func run() async {
         if !hasSeenHelp {
             await withCheckedContinuation { helpClosedContinuation = $0 }
@@ -42,10 +42,10 @@ final class UsageStore {
         } catch UsageError.rateLimited {
             // Keep the last known numbers; just note why they aren't updating.
             errorMessage = UsageError.rateLimited.localizedDescription
-            return .seconds(300)
+            return .seconds(900)
         } catch {
             errorMessage = error.localizedDescription
         }
-        return .seconds(60)
+        return .seconds(300)
     }
 }

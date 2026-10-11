@@ -29,7 +29,7 @@ nonisolated enum UsageError: LocalizedError {
         switch self {
         case .notLoggedIn: "Not logged in to Claude Code"
         case .tokenExpired: "Token expired — run Claude Code"
-        case .rateLimited: "Too many requests — retrying in 5 min"
+        case .rateLimited: "Too many requests — retrying in 15 min"
         case .badResponse(let code): "Usage request failed (HTTP \(code))"
         }
     }
